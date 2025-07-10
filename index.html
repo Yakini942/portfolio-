@@ -1,280 +1,127 @@
+
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mwungeli Beni Yakini | IT Professional</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Mark Gatere - Software Engineer | Interactive Terminal Portfolio</title>
+    <meta name="description" content="Mark Gatere's interactive terminal-style portfolio. Software Engineer specializing in full-stack development. Type commands to explore my experience, projects, and skills.">
+    <meta name="author" content="Mark Gatere">
+    
+    <!-- Preload fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals & Slate -->
-    <!-- Application Structure Plan: A single-page, top-down narrative structure is chosen to guide the recruiter through a compelling story. It starts with a strong summary, moves to a visual skills dashboard for immediate impact, details education and project 'proof-of-work', and concludes with professional experience. This flow prioritizes potential and demonstrated ability over a long work history, which is ideal for a recent graduate. Navigation is facilitated by a sticky header, allowing easy jumps between these logical, thematic sections. -->
-    <!-- Visualization & Content Choices: 
-        - Report Info: Technical & Soft Skills. Goal: Compare/Inform. Viz: Horizontal Bar Charts (Chart.js). Interaction: Tooltips on hover. Justification: Visually engaging and provides a quick, scannable overview of capabilities, far more effective than a static list.
-        - Report Info: Academic Projects. Goal: Organize/Inform. Viz: HTML/Tailwind CSS Cards. Interaction: Subtle hover effects. Justification: Organizes projects into digestible, professional-looking summaries that frame academic work as tangible experience.
-        - Report Info: Education, Experience, Summary. Goal: Inform. Viz: Structured HTML/Tailwind text blocks. Interaction: None. Justification: Clear, professional, and standard presentation for core textual information.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-slate-50 text-slate-800">
-
-    <!-- Header & Navigation -->
-    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div>
-                <a href="#hero" class="text-xl font-bold text-slate-900">Mwungeli Beni Yakini</a>
-            </div>
-            <div class="hidden md:flex space-x-8">
-                <a href="#skills" class="text-slate-600 hover:text-slate-900 transition-colors">Skills</a>
-                <a href="#education" class="text-slate-600 hover:text-slate-900 transition-colors">Education & Projects</a>
-                <a href="#experience" class="text-slate-600 hover:text-slate-900 transition-colors">Experience</a>
-                <a href="#contact" class="text-slate-600 hover:text-slate-900 transition-colors">Contact</a>
-            </div>
-            <div class="md:hidden">
-                <!-- Mobile menu button can be added here if needed -->
-            </div>
-        </nav>
-    </header>
-
-    <main class="container mx-auto px-6">
-
-        <!-- Hero Section -->
-        <section id="hero" class="text-center py-20 md:py-32">
-            <h1 class="text-4xl md:text-6xl font-bold text-slate-900">Aspiring Business & IT Professional</h1>
-            <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">
-                Final-year Business Information Technology student with a passion for leveraging technology to solve complex business challenges. Eager to apply my skills in data analysis, systems support, and project collaboration in a dynamic tech environment.
-            </p>
-            <div class="mt-8 flex justify-center space-x-4">
-                <a href="mailto:your.email@example.com" class="bg-slate-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-700 transition-colors">Contact Me</a>
-                <a href="#projects" class="bg-white text-slate-800 font-bold py-3 px-6 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors">View Projects</a>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="py-20 bg-white rounded-2xl shadow-sm">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Technical Skillset</h2>
-                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">This section provides a visual overview of my technical abilities. As a dedicated learner, I am continuously working to deepen my expertise in these areas. Interact with the charts to see more details.</p>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="chart-container">
-                    <canvas id="languagesChart"></canvas>
+<body>
+    <div class="container">
+        <!-- Background grid pattern -->
+        <div class="bg-grid"></div>
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-info">
+                    <h1 class="header-title">Mark Gatere</h1>
+                    <p class="header-subtitle">Software Engineer</p>
                 </div>
-                <div class="chart-container">
-                    <canvas id="dbToolsChart"></canvas>
+                <div class="clock">
+                    <div class="clock-time" id="clock-time"></div>
+                    <div class="clock-label">System Time</div>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <!-- Education & Projects Section -->
-        <section id="education" class="py-20">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Education & Academic Projects</h2>
-                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">My degree from the University of Rwanda provided me with a strong theoretical foundation, which I applied to practical, hands-on projects. This section details my formal education and showcases some of the key projects I completed.</p>
-            </div>
-
-            <!-- Education -->
-            <div class="bg-white p-8 rounded-2xl shadow-sm mb-12 max-w-4xl mx-auto">
-                <h3 class="text-xl font-bold text-slate-900">Bachelor of Business in Information Technology</h3>
-                <p class="text-slate-600">University of Rwanda, Huye, Rwanda</p>
-                <p class="text-slate-500 font-medium mt-1">Expected Graduation: October 2025</p>
-                <div class="mt-4">
-                    <h4 class="font-semibold mb-2">Key Relevant Coursework:</h4>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-slate-100 text-slate-700 text-sm font-medium px-3 py-1 rounded-full">Database Management Systems</span>
-                        <span class="bg-slate-100 text-slate-700 text-sm font-medium px-3 py-1 rounded-full">Software Development Principles</span>
-                        <span class="bg-slate-100 text-slate-700 text-sm font-medium px-3 py-1 rounded-full">Project Management</span>
-                        <span class="bg-slate-100 text-slate-700 text-sm font-medium px-3 py-1 rounded-full">Network Fundamentals</span>
-                        <span class="bg-slate-100 text-slate-700 text-sm font-medium px-3 py-1 rounded-full">Business Intellince & Big Data Analytics</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Projects -->
-            <div id="projects" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
-                    <h4 class="text-lg font-bold">Fashion Design System</h4>
-                    <p class="mt-2 text-slate-600">Developed a web-based prototype to streamline order processing and basic Fashion Trented. This project involved front-end development and database design.</p>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-0.5 rounded-full">HTML</span>
-                        <span class="bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-0.5 rounded-full">CSS</span>
-                        <span class="bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-0.5 rounded-full">JavaScript</span>
-                         <span class="bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-0.5 rounded-full">PHP</span>
-                        <span class="bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-0.5 rounded-full">MySQL</span>
-                    </div>
-                </div>
-                 <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
-                    <h4 class="text-lg font-bold">Analysis of Student Enrollment Trends</h4>
-                    <p class="mt-2 text-slate-600">Conducted a data analysis project on historical enrollment data to identify key trends and factors impacting student retention, presenting findings and recommendations to faculty.</p>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Excel</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Data Analysis</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Presentation</span>
-                        <span class="bg-sky-100 text-sky-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Python (Pandas)</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="py-20 bg-white rounded-2xl shadow-sm">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Professional Experience</h2>
-                 <p class="mt-2 text-slate-600 max-w-2xl mx-auto">My academic internship at Masaka District Hospital provided me with my first taste of a professional IT environment. It was an invaluable experience where I learned to apply my knowledge to solve real-world problems and support critical operations.</p>
-            </div>
-            <div class="max-w-3xl mx-auto">
-                 <div class="bg-slate-50 p-6 rounded-lg">
-                    <div class="flex justify-between items-start">
-                        <div>
-                           <h3 class="text-xl font-bold">Academic Intern</h3>
-                           <p class="text-slate-700">Masaka District Hospital, Masaka, Rwanda</p>
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Left side - 3D Floating Card -->
+            <div class="floating-card-container">
+                <div class="floating-particles" id="floating-particles"></div>
+                <div class="floating-card" id="floating-card">
+                    <div class="card-glow"></div>
+                    <div class="card-main">
+                        <!-- Card header -->
+                        <div class="card-header">
+                            <div class="card-controls">
+                                <div class="control red"></div>
+                                <div class="control yellow"></div>
+                                <div class="control green"></div>
+                                <span class="card-title">gatere@portfolio</span>
+                            </div>
                         </div>
-                        <p class="text-slate-500 font-medium">[May] - [June] 2025</p>
+
+                        <!-- Profile section -->
+                        <div class="card-profile">
+                            <div class="profile-image-container">
+                                <div class="profile-image">
+                                    <img src="public/lovable-uploads/1dbbae88-5abf-4980-b78c-83bedc3fc904.png" 
+                                         alt="Mark Gatere" 
+                                         id="profile-img"
+                                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'fallback-icon\'>👨‍💻</div>';">
+                                    <div class="scanning-line"></div>
+                                </div>
+                                <div class="holographic-border"></div>
+                            </div>
+
+                            <div class="profile-info">
+                                <h3 class="profile-name">Mark Gatere</h3>
+                                <p class="profile-title">Software Engineer</p>
+                                <div class="profile-badge">
+                                    <p>[Interactive 3D Card]</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status bar -->
+                        <div class="status-bar">
+                            <span>● ONLINE</span>
+                            <span>Ready for opportunities</span>
+                        </div>
                     </div>
-                    <ul class="mt-4 list-disc list-inside text-slate-600 space-y-2">
-                        <li>Assisted the IT department with troubleshooting basic hardware and software issues, ensuring smooth daily operations for hospital staff.</li>
-                        <li>Contributed to the organization and maintenance of digital records, learning firsthand the importance of data integrity and accessibility in a healthcare setting.</li>
-                        <li>Learned and applied foundational IT support procedures, including user account management, system updates, and responding to support tickets.</li>
-                        <li>Collaborated with senior IT staff to resolve user inquiries, developing strong problem-solving and professional communication skills.</li>
-                    </ul>
-                 </div>
+                </div>
             </div>
-        </section>
 
-    </main>
+            <!-- Right side - Terminal Interface -->
+            <div class="terminal-container">
+                <div class="terminal">
+                    <!-- Terminal header -->
+                    <div class="terminal-header">
+                        <div class="terminal-controls">
+                            <div class="control red"></div>
+                            <div class="control yellow"></div>
+                            <div class="control green"></div>
+                        </div>
+                        <span class="terminal-title">mark@portfolio-terminal</span>
+                    </div>
 
-    <!-- Footer / Contact -->
-    <footer id="contact" class="bg-slate-800 text-white mt-20">
-        <div class="container mx-auto px-6 py-12 text-center">
-             <h2 class="text-3xl font-bold">Let's Connect</h2>
-             <p class="mt-2 max-w-2xl mx-auto text-slate-300">I am actively seeking entry-level opportunities in IT and Business Analysis. If you have a role that might be a good fit, or if you'd just like to chat, please get in touch!</p>
-             <div class="mt-8">
-                 <a href="mailto:your.email@example.com" class="text-2xl font-semibold text-amber-300 hover:text-amber-200">y.beni250@gmail.com</a>
-             </div>
-             <div class="mt-8 flex justify-center space-x-6">
-                <a href="https://www.linkedin.com/in/yakini-beni/" target="_blank" class="text-slate-400 hover:text-white transition-colors">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"/></svg>
-                </a>
-                <a href="[Your GitHub URL]" target="_blank" class="text-slate-400 hover:text-white transition-colors">
-                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"/></svg>
-                </a>
-             </div>
+                    <!-- Terminal content -->
+                    <div class="terminal-content" id="terminal-content">
+                        <div id="terminal-output"></div>
+                        
+                        <!-- Input line -->
+                        <div class="input-line">
+                            <span class="prompt">gatere@portfolio:~$</span>
+                            <input type="text" 
+                                   id="terminal-input" 
+                                   class="terminal-input"
+                                   placeholder="Type a command..."
+                                   autocomplete="off"
+                                   spellcheck="false">
+                            <span class="cursor">▋</span>
+                        </div>
+                    </div>
+
+                    <!-- Help hint -->
+                    <div class="terminal-footer">
+                        <p>Type 'help' for commands • Use ↑↓ arrow keys for history</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const chartOptions = {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#1e293b',
-                        titleFont: { size: 14, weight: 'bold' },
-                        bodyFont: { size: 12 },
-                        padding: 10,
-                    }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 100,
-                        grid: {
-                            color: '#e2e8f0',
-                        },
-                        ticks: {
-                           color: '#64748b'
-                        }
-                    },
-                    y: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                           color: '#334155',
-                           font: {
-                               weight: 'bold'
-                           }
-                        }
-                    }
-                }
-            };
-            
-            // Chart 1: Programming & Web
-            const languagesCtx = document.getElementById('languagesChart').getContext('2d');
-            new Chart(languagesCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['PHP', 'MYSQL', 'JavaScript', 'HTML/CSS'],
-                    datasets: [{
-                        label: 'Confidence Level',
-                        data: [50, 70, 60, 85], // User should update these values (0-100)
-                        backgroundColor: [
-                            '#14b8a6',
-                            '#0ea5e9',
-                            '#f59e0b',
-                            '#ef4444',
-                        ],
-                        borderRadius: 4,
-                    }]
-                },
-                options: {
-                    ...chartOptions,
-                    plugins: {
-                        ...chartOptions.plugins,
-                        title: {
-                            display: true,
-                            text: 'Programming & Web Technologies',
-                            font: { size: 18, weight: 'bold' },
-                            color: '#1e293b',
-                            padding: { bottom: 20 }
-                        }
-                    }
-                }
-            });
-
-            // Chart 2: Databases & Tools
-            const dbToolsCtx = document.getElementById('dbToolsChart').getContext('2d');
-            new Chart(dbToolsCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['MySQL/PostgreSQL', 'MS Office Suite', 'Networking (TCP/IP)', 'OS (Win/Linux)'],
-                    datasets: [{
-                        label: 'Confidence Level',
-                        data: [75, 90, 60, 80], // User should update these values (0-100)
-                        backgroundColor: [
-                             '#3b82f6',
-                             '#22c55e',
-                             '#8b5cf6',
-                             '#64748b',
-                        ],
-                        borderRadius: 4,
-                    }]
-                },
-                options: {
-                    ...chartOptions,
-                     plugins: {
-                        ...chartOptions.plugins,
-                        title: {
-                            display: true,
-                            text: 'Databases, Tools & Concepts',
-                            font: { size: 18, weight: 'bold' },
-                            color: '#1e293b',
-                            padding: { bottom: 20 }
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
