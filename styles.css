@@ -192,7 +192,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: calc(100% - 120px);
+    height: calc(110% - 120px);
 }
 
 .profile-image-container {
@@ -405,7 +405,7 @@ body {
 }
 
 .prompt {
-    color: #22c55e;
+    color: #2522c5;
     margin-right: 0.5rem;
     user-select: none;
 }

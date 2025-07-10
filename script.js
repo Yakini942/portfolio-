@@ -70,20 +70,20 @@ class TerminalPortfolio {
                 '',
                 '💻 Programming Languages:',
                 '   • JavaScript/TypeScript  ████████████ 95%',
-                '   • Python                ███████████  90%',
-                '   • Java                  ████████     80%',
-                '   • Go                    ███████      70%',
+                '   • Python                 ███████████  90%',
+                '   • Java                   ████████     80%',
+                '   • Go                     ███████      70%',
                 '',
                 '🌐 Web Technologies:',
                 '   • React/Next.js         ████████████ 95%',
                 '   • Node.js/Express       ███████████  90%',
-                '   • HTML5/CSS3           ████████████ 95%',
+                '   • HTML5/CSS3            ████████████ 95%',
                 '   • GraphQL/REST APIs     ██████████   85%',
                 '',
                 '🗄️  Databases:',
                 '   • PostgreSQL            ██████████   85%',
-                '   • MongoDB              █████████    80%',
-                '   • Redis                ████████     75%',
+                '   • MongoDB               █████████    80%',
+                '   • Redis                 ████████     75%',
                 '',
                 '☁️  Cloud & DevOps:',
                 '   • AWS/GCP              █████████    80%',
@@ -288,7 +288,7 @@ class TerminalPortfolio {
         
         const promptDiv = document.createElement('div');
         promptDiv.className = 'command-prompt';
-        promptDiv.innerHTML = `<span class="prompt-text">gatere@portfolio:~$</span> <span class="command-text">${inputCommand}</span>`;
+        promptDiv.innerHTML = `<span class="prompt-text">yakini@portfolio:~$</span> <span class="command-text">${inputCommand}</span>`;
         
         commandDiv.appendChild(promptDiv);
         
