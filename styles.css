@@ -1,4 +1,3 @@
-
 /* CSS Reset and Base Styles */
 * {
     margin: 0;
@@ -10,12 +9,16 @@ body {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     background: #000000;
     color: #22c55e;
-    overflow-x: hidden;
+    overflow: hidden;
+    height: 100vh;
 }
 
 .container {
     min-height: 100vh;
+    height: 100vh;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Background Grid */
@@ -76,11 +79,10 @@ body {
 
 /* Main Content */
 .main-content {
-    position: relative;
-    z-index: 10;
+    flex: 1 1 auto;
     display: flex;
-    min-height: calc(100vh - 80px);
-    flex-direction: column;
+    min-height: 0;
+    height: 100%;
 }
 
 @media (min-width: 1024px) {
@@ -303,6 +305,8 @@ body {
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    min-height: 0;
 }
 
 @media (min-width: 1024px) {
@@ -321,6 +325,7 @@ body {
     border: 1px solid rgba(34, 197, 94, 0.3);
     backdrop-filter: blur(8px);
     min-height: 500px;
+    flex: 1 1 auto;
 }
 
 .terminal-header {
@@ -334,11 +339,14 @@ body {
 }
 
 .terminal-content {
-    flex: 1;
+    flex: 1 1 auto;
     padding: 1rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
 }
 
 .terminal-content::-webkit-scrollbar {
@@ -372,17 +380,17 @@ body {
 }
 
 .command-prompt .command-text {
-    color: rgba(34, 197, 94, 0.9);
+    color: rgba(230, 240, 234, 0.9);
 }
 
 .output-text {
-    color: rgba(34, 197, 94, 0.9);
+    color: #fff;
     white-space: pre-wrap;
     line-height: 1.5;
 }
 
 .output-line {
-    color: rgba(34, 197, 94, 0.8);
+    color: rgba(234, 238, 235, 0.8);
 }
 
 .output-line.header {
@@ -402,6 +410,7 @@ body {
     display: flex;
     align-items: center;
     margin-top: 1rem;
+    position: relative;
 }
 
 .prompt {
@@ -418,7 +427,9 @@ body {
     color: #22c55e;
     font-family: 'JetBrains Mono', monospace;
     font-size: 1rem;
-    caret-color: #22c55e;
+    caret-color: transparent;
+    position: relative;
+    z-index: 2;
 }
 
 .terminal-input::placeholder {
@@ -428,7 +439,9 @@ body {
 .cursor {
     color: #22c55e;
     animation: blink 1s infinite;
-    margin-left: 0.25rem;
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
 }
 
 .terminal-footer {
@@ -442,6 +455,7 @@ body {
     color: rgba(34, 197, 94, 0.6);
     font-size: 0.75rem;
 }
+
 
 /* Animations */
 @keyframes pulse {
@@ -461,7 +475,7 @@ body {
 
 .typewriter-cursor {
     animation: blink 1s infinite;
-    color: #22c55e;
+    color: #def8e7;
 }
 
 /* Responsive Design */
