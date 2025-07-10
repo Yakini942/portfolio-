@@ -333,7 +333,10 @@ class TerminalPortfolio {
         this.terminalContent.appendChild(inputLine);
         this.terminalInput = inputLine.querySelector('.terminal-input');
         this.setupEventListeners();
-        setTimeout(() => this.terminalInput.focus(), 100);
+        setTimeout(() => {
+            this.terminalInput.focus();
+            this.scrollToBottom();
+        }, 100);
     }
 
     addCommand(inputCommand, command) {
@@ -353,6 +356,7 @@ class TerminalPortfolio {
         commandDiv.appendChild(outputDiv);
         
         this.terminalOutput.appendChild(commandDiv);
+        this.scrollToBottom();
         
         // Type output
         const output = this.commands[command] || [
@@ -377,9 +381,9 @@ class TerminalPortfolio {
                 this.scrollToBottom();
                 return;
             }
-            
+
             const currentLine = lines[lineIndex];
-            
+
             if (charIndex <= currentLine.length) {
                 const lineDiv = container.children[lineIndex] || document.createElement('div');
                 if (!lineDiv.parentNode) {
@@ -391,9 +395,10 @@ class TerminalPortfolio {
                     }
                     container.appendChild(lineDiv);
                 }
-                
+
                 lineDiv.textContent = currentLine.substring(0, charIndex);
-                
+                this.scrollToBottom(); // Scroll after every character
+
                 if (charIndex === currentLine.length) {
                     lineIndex++;
                     charIndex = 0;
@@ -404,7 +409,7 @@ class TerminalPortfolio {
                 }
             }
         };
-        
+
         typeChar();
     }
     
