@@ -1,4 +1,3 @@
-
 // Terminal Portfolio JavaScript
 
 class TerminalPortfolio {
@@ -218,17 +217,59 @@ class TerminalPortfolio {
         this.terminalInput.addEventListener('keydown', (e) => this.handleKeyDown(e));
         this.terminalInput.addEventListener('input', (e) => {
             this.currentInput = e.target.value;
+            this.moveFakeCursor();
         });
-        
+
+        // Hide native caret
+        this.terminalInput.style.caretColor = 'transparent';
+
+        // Add fake blinking cursor logic
+        this.fakeCursor = document.querySelector('.cursor');
+        this.terminalInput.addEventListener('focus', () => {
+            this.fakeCursor.style.display = 'inline';
+            this.moveFakeCursor();
+        });
+        this.terminalInput.addEventListener('blur', () => {
+            this.fakeCursor.style.display = 'none';
+        });
+
         // Auto-focus terminal input
         document.addEventListener('click', () => {
             if (!this.isTyping) {
                 this.terminalInput.focus();
             }
         });
-        
+
         // Initial focus
         setTimeout(() => this.terminalInput.focus(), 100);
+    }
+
+    moveFakeCursor() {
+        // Move the fake cursor horizontally to match the input text length using getBoundingClientRect
+        const input = this.terminalInput;
+        const cursor = this.fakeCursor;
+        // Create a temp span to measure the text width
+        const tempSpan = document.createElement('span');
+        tempSpan.style.visibility = 'hidden';
+        tempSpan.style.position = 'absolute';
+        tempSpan.style.whiteSpace = 'pre';
+        tempSpan.style.font = window.getComputedStyle(input).font;
+        tempSpan.style.fontFamily = input.style.fontFamily || 'inherit';
+        tempSpan.style.fontSize = input.style.fontSize || 'inherit';
+        tempSpan.style.fontWeight = input.style.fontWeight || 'inherit';
+        tempSpan.style.fontStyle = input.style.fontStyle || 'inherit';
+        tempSpan.style.letterSpacing = input.style.letterSpacing || 'inherit';
+        tempSpan.textContent = input.value;
+        document.body.appendChild(tempSpan);
+        // Get the bounding rect of the input and the span
+        const inputRect = input.getBoundingClientRect();
+        const spanRect = tempSpan.getBoundingClientRect();
+        // Calculate left offset relative to input
+        // Use input.scrollLeft to account for horizontal scroll
+        const left = spanRect.width + input.offsetLeft + input.scrollLeft;
+        cursor.style.left = `${left}px`;
+        cursor.style.top = `${input.offsetTop + (input.offsetHeight / 2) - (cursor.offsetHeight / 2)}px`;
+        document.body.removeChild(tempSpan);
     }
     
     handleKeyDown(e) {
@@ -281,40 +322,94 @@ class TerminalPortfolio {
         this.commandHistory.push(command);
     }
     
+    // --- Welcome message typing with blinking cursor ---
+    typeOutput(container, lines, withCursor = false) {
+        this.isTyping = true;
+        this.terminalInput.disabled = true;
+        // Hide the main input cursor while typing welcome message
+        if (withCursor && this.fakeCursor) {
+            this.fakeCursor.style.display = 'none';
+        }
+        let lineIndex = 0;
+        let charIndex = 0;
+        const typeChar = () => {
+            if (lineIndex >= lines.length) {
+                this.isTyping = false;
+                this.terminalInput.disabled = false;
+                this.terminalInput.focus();
+                this.scrollToBottom();
+                // Show the main input cursor after welcome message is done
+                if (withCursor && this.fakeCursor) {
+                    this.fakeCursor.style.display = 'inline';
+                }
+                // Remove the animated cursor from the welcome message
+                const allMovingCursors = container.querySelectorAll('.cursor');
+                allMovingCursors.forEach(c => c.remove());
+                return;
+            }
+            const currentLine = lines[lineIndex];
+            let lineDiv = container.children[lineIndex] || document.createElement('div');
+            if (!lineDiv.parentNode) {
+                lineDiv.className = 'output-line';
+                if (currentLine.startsWith('=')) {
+                    lineDiv.className += ' header';
+                } else if (currentLine.includes('████')) {
+                    lineDiv.className += ' skill-bar';
+                }
+                container.appendChild(lineDiv);
+            }
+            // Create wrapper span if not exists
+            if (withCursor) {
+                if (!lineDiv.querySelector('.text-with-cursor')) {
+                    const spanWrap = document.createElement('span');
+                    spanWrap.className = 'text-with-cursor';
+                    lineDiv.appendChild(spanWrap);
+                }
+                const spanWrap = lineDiv.querySelector('.text-with-cursor');
+                spanWrap.innerHTML = currentLine.substring(0, charIndex) + '<span class="cursor">▋</span>';
+            } else {
+                lineDiv.textContent = currentLine.substring(0, charIndex);
+            }
+            this.scrollToBottom();
+            if (charIndex === currentLine.length) {
+                lineIndex++;
+                charIndex = 0;
+                setTimeout(typeChar, 50);
+            } else {
+                charIndex++;
+                setTimeout(typeChar, Math.random() * 30 + 10);
+            }
+        };
+        typeChar();
+    }
+
     addCommand(inputCommand, command) {
         // Add command prompt
         const commandDiv = document.createElement('div');
         commandDiv.className = 'command-output';
-        
         const promptDiv = document.createElement('div');
         promptDiv.className = 'command-prompt';
         promptDiv.innerHTML = `<span class="prompt-text">yakini@portfolio:~$</span> <span class="command-text">${inputCommand}</span>`;
-        
         commandDiv.appendChild(promptDiv);
-        
         // Add output container
         const outputDiv = document.createElement('div');
         outputDiv.className = 'output-text';
         commandDiv.appendChild(outputDiv);
-        
         this.terminalOutput.appendChild(commandDiv);
-        
         // Type output
         const output = this.commands[command] || [
-            `Command not found: ${inputCommand}`,
-            'Type "help" to see available commands.'
+            `<span class=\"error-line\">❗ Command not recognized: ${inputCommand}</span>`,
+            `<span class=\"hint-line\">Type <b>help</b> to see available commands.</span>`
         ];
-        
-        this.typeOutput(outputDiv, output);
+        this.typeOutputHTML(outputDiv, output);
     }
-    
-    typeOutput(container, lines) {
+
+    // New: typeOutputHTML for HTML output (error/hint)
+    typeOutputHTML(container, lines) {
         this.isTyping = true;
         this.terminalInput.disabled = true;
-        
         let lineIndex = 0;
         let charIndex = 0;
-        
         const typeChar = () => {
             if (lineIndex >= lines.length) {
                 this.isTyping = false;
@@ -323,57 +418,43 @@ class TerminalPortfolio {
                 this.scrollToBottom();
                 return;
             }
-            
             const currentLine = lines[lineIndex];
-            
-            if (charIndex <= currentLine.length) {
-                const lineDiv = container.children[lineIndex] || document.createElement('div');
-                if (!lineDiv.parentNode) {
-                    lineDiv.className = 'output-line';
-                    if (currentLine.startsWith('=')) {
-                        lineDiv.className += ' header';
-                    } else if (currentLine.includes('████')) {
-                        lineDiv.className += ' skill-bar';
-                    }
-                    container.appendChild(lineDiv);
-                }
-                
-                lineDiv.textContent = currentLine.substring(0, charIndex);
-                
-                if (charIndex === currentLine.length) {
-                    lineIndex++;
-                    charIndex = 0;
-                    setTimeout(typeChar, 50);
-                } else {
-                    charIndex++;
-                    setTimeout(typeChar, Math.random() * 30 + 10);
-                }
+            let lineDiv = container.children[lineIndex] || document.createElement('div');
+            if (!lineDiv.parentNode) {
+                lineDiv.className = 'output-line';
+                container.appendChild(lineDiv);
+            }
+            lineDiv.innerHTML = currentLine.substring(0, charIndex);
+            this.scrollToBottom();
+            if (charIndex === currentLine.length) {
+                lineIndex++;
+                charIndex = 0;
+                setTimeout(typeChar, 50);
+            } else {
+                charIndex++;
+                setTimeout(typeChar, Math.random() * 30 + 10);
             }
         };
-        
         typeChar();
-    }
-    
-    clearTerminal() {
-        this.terminalOutput.innerHTML = '';
     }
     
     showWelcomeMessage() {
         const welcomeLines = [
-            'Welcome to my interactive \'AI powered\' portfolio terminal!',
-            'Type \'help\' to see available commands.',
+            "Welcome to my interactive 'AI powered' portfolio terminal!",
+            "Type 'help' to see available commands.",
             '',
         ];
-        
         const welcomeDiv = document.createElement('div');
         welcomeDiv.className = 'command-output';
-        
         const outputDiv = document.createElement('div');
         outputDiv.className = 'output-text';
         welcomeDiv.appendChild(outputDiv);
-        
         this.terminalOutput.appendChild(welcomeDiv);
-        this.typeOutput(outputDiv, welcomeLines);
+        this.typeOutput(outputDiv, welcomeLines, true); // pass true for blinking cursor
+    }
+    
+    clearTerminal() {
+        this.terminalOutput.innerHTML = '';
     }
     
     scrollToBottom() {

@@ -9,16 +9,12 @@ body {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     background: #000000;
     color: #22c55e;
-    overflow: hidden;
-    height: 100vh;
+    overflow-x: hidden;
 }
 
 .container {
     min-height: 100vh;
-    height: 100vh;
     position: relative;
-    display: flex;
-    flex-direction: column;
 }
 
 /* Background Grid */
@@ -79,10 +75,11 @@ body {
 
 /* Main Content */
 .main-content {
-    flex: 1 1 auto;
+    position: relative;
+    z-index: 10;
     display: flex;
-    min-height: 0;
-    height: 100%;
+    min-height: calc(100vh - 80px);
+    flex-direction: column;
 }
 
 @media (min-width: 1024px) {
@@ -305,8 +302,6 @@ body {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    min-height: 0;
 }
 
 @media (min-width: 1024px) {
@@ -325,7 +320,6 @@ body {
     border: 1px solid rgba(34, 197, 94, 0.3);
     backdrop-filter: blur(8px);
     min-height: 500px;
-    flex: 1 1 auto;
 }
 
 .terminal-header {
@@ -339,14 +333,14 @@ body {
 }
 
 .terminal-content {
-    flex: 1 1 auto;
     padding: 1rem;
+    max-width: 800px;
+    height: 400px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    height: 100%;
-    max-height: 100%;
+    scroll-behavior: smooth;
+    flex: none;
 }
 
 .terminal-content::-webkit-scrollbar {
@@ -380,17 +374,17 @@ body {
 }
 
 .command-prompt .command-text {
-    color: rgba(230, 240, 234, 0.9);
+    color: rgba(34, 197, 94, 0.9);
 }
 
 .output-text {
-    color: #fff;
+    color: #22c55e;
     white-space: pre-wrap;
     line-height: 1.5;
 }
 
 .output-line {
-    color: rgba(234, 238, 235, 0.8);
+    color: rgba(241, 247, 243, 0.8);
 }
 
 .output-line.header {
@@ -407,14 +401,14 @@ body {
 }
 
 .input-line {
+    position: relative;
     display: flex;
     align-items: center;
     margin-top: 1rem;
-    position: relative;
 }
 
 .prompt {
-    color: #2522c5;
+    color: #151366;
     margin-right: 0.5rem;
     user-select: none;
 }
@@ -436,6 +430,7 @@ body {
     color: #22c55e;
     animation: blink 1s infinite;
     position: absolute;
+    transform: translateY(-5%);
     z-index: 3;
     pointer-events: none;
 }
@@ -451,7 +446,6 @@ body {
     color: rgba(34, 197, 94, 0.6);
     font-size: 0.75rem;
 }
-
 
 /* Animations */
 @keyframes pulse {
@@ -471,7 +465,7 @@ body {
 
 .typewriter-cursor {
     animation: blink 1s infinite;
-    color: #def8e7;
+    color: #22c55e;
 }
 
 /* Responsive Design */
