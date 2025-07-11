@@ -1,3 +1,4 @@
+
 // Terminal Portfolio JavaScript
 
 class TerminalPortfolio {
@@ -217,51 +218,17 @@ class TerminalPortfolio {
         this.terminalInput.addEventListener('keydown', (e) => this.handleKeyDown(e));
         this.terminalInput.addEventListener('input', (e) => {
             this.currentInput = e.target.value;
-            this.moveFakeCursor();
         });
-        this.terminalInput.addEventListener('click', () => this.moveFakeCursor());
+        
         // Auto-focus terminal input
         document.addEventListener('click', () => {
             if (!this.isTyping) {
                 this.terminalInput.focus();
             }
         });
+        
         // Initial focus
         setTimeout(() => this.terminalInput.focus(), 100);
-        // Move fake cursor on focus
-        this.terminalInput.addEventListener('focus', () => this.moveFakeCursor());
-    }
-
-    moveFakeCursor() {
-        // Find the input-line and cursor
-        const inputLine = this.terminalInput.parentElement;
-        const cursor = inputLine.querySelector('.cursor');
-        // Get input value and measure width
-        const value = this.terminalInput.value;
-        // Create a hidden span to measure text width
-        let measureSpan = document.getElementById('measure-span');
-        if (!measureSpan) {
-            measureSpan = document.createElement('span');
-            measureSpan.id = 'measure-span';
-            measureSpan.style.visibility = 'hidden';
-            measureSpan.style.position = 'absolute';
-            measureSpan.style.whiteSpace = 'pre';
-            measureSpan.style.fontFamily = getComputedStyle(this.terminalInput).fontFamily;
-            measureSpan.style.fontSize = getComputedStyle(this.terminalInput).fontSize;
-            document.body.appendChild(measureSpan);
-        }
-        measureSpan.textContent = value;
-        // Get the left offset of the input
-        const inputRect = this.terminalInput.getBoundingClientRect();
-        const lineRect = inputLine.getBoundingClientRect();
-        const offset = measureSpan.offsetWidth;
-        // Move the cursor
-        cursor.style.position = 'absolute';
-        cursor.style.left = (this.terminalInput.offsetLeft + offset + 2) + 'px';
-        cursor.style.top = this.terminalInput.offsetTop + 'px';
-        cursor.style.height = this.terminalInput.offsetHeight + 'px';
-        cursor.style.lineHeight = this.terminalInput.offsetHeight + 'px';
-        cursor.style.display = 'inline-block';
     }
     
     handleKeyDown(e) {
@@ -299,46 +266,21 @@ class TerminalPortfolio {
     
     executeCommand() {
         if (this.currentInput.trim() === '' || this.isTyping) return;
-
+        
         const command = this.currentInput.toLowerCase().trim();
-
+        
         if (command === 'clear') {
             this.clearTerminal();
-            // After clear, show a new prompt
-            this.addNewPrompt();
         } else {
             this.addCommand(this.currentInput, command);
         }
-
+        
         this.terminalInput.value = '';
         this.currentInput = '';
         this.historyIndex = -1;
         this.commandHistory.push(command);
-        // Hide placeholder after command
-        this.terminalInput.setAttribute('placeholder', '');
     }
-
-    addNewPrompt() {
-        // Remove the old input line
-        const oldInputLine = document.querySelector('.input-line');
-        if (oldInputLine) oldInputLine.remove();
-        // Create a new input line at the bottom
-        const inputLine = document.createElement('div');
-        inputLine.className = 'input-line';
-        inputLine.innerHTML = `
-            <span class="prompt">yakini@portfolio:~$</span>
-            <input type="text" id="terminal-input" class="terminal-input" placeholder="Type a command..." autocomplete="off" spellcheck="false">
-            <span class="cursor">▋</span>
-        `;
-        this.terminalContent.appendChild(inputLine);
-        this.terminalInput = inputLine.querySelector('.terminal-input');
-        this.setupEventListeners();
-        setTimeout(() => {
-            this.terminalInput.focus();
-            this.scrollToBottom();
-        }, 100);
-    }
-
+    
     addCommand(inputCommand, command) {
         // Add command prompt
         const commandDiv = document.createElement('div');
@@ -356,7 +298,6 @@ class TerminalPortfolio {
         commandDiv.appendChild(outputDiv);
         
         this.terminalOutput.appendChild(commandDiv);
-        this.scrollToBottom();
         
         // Type output
         const output = this.commands[command] || [
@@ -370,20 +311,21 @@ class TerminalPortfolio {
     typeOutput(container, lines) {
         this.isTyping = true;
         this.terminalInput.disabled = true;
+        
         let lineIndex = 0;
         let charIndex = 0;
+        
         const typeChar = () => {
             if (lineIndex >= lines.length) {
                 this.isTyping = false;
                 this.terminalInput.disabled = false;
-                // After output, add a new prompt/input line
-                this.addNewPrompt();
+                this.terminalInput.focus();
                 this.scrollToBottom();
                 return;
             }
-
+            
             const currentLine = lines[lineIndex];
-
+            
             if (charIndex <= currentLine.length) {
                 const lineDiv = container.children[lineIndex] || document.createElement('div');
                 if (!lineDiv.parentNode) {
@@ -395,10 +337,9 @@ class TerminalPortfolio {
                     }
                     container.appendChild(lineDiv);
                 }
-
+                
                 lineDiv.textContent = currentLine.substring(0, charIndex);
-                this.scrollToBottom(); // Scroll after every character
-
+                
                 if (charIndex === currentLine.length) {
                     lineIndex++;
                     charIndex = 0;
@@ -409,7 +350,7 @@ class TerminalPortfolio {
                 }
             }
         };
-
+        
         typeChar();
     }
     
