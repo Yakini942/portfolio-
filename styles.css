@@ -432,10 +432,6 @@ body {
     z-index: 2;
 }
 
-.terminal-input::placeholder {
-    color: rgba(34, 197, 94, 0.4);
-}
-
 .cursor {
     color: #22c55e;
     animation: blink 1s infinite;
