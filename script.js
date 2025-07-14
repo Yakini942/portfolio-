@@ -396,6 +396,7 @@ class TerminalPortfolio {
         outputDiv.className = 'output-text';
         commandDiv.appendChild(outputDiv);
         this.terminalOutput.appendChild(commandDiv);
+        this.scrollToBottom();
         // Type output
         const output = this.commands[command] || [
             `<span class=\"error-line\">❗ Command not recognized: ${inputCommand}</span>`,
@@ -455,6 +456,7 @@ class TerminalPortfolio {
     
     clearTerminal() {
         this.terminalOutput.innerHTML = '';
+        this.scrollToBottom();
     }
     
     scrollToBottom() {
