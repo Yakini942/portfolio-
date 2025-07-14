@@ -30,7 +30,7 @@ class TerminalPortfolio {
                 'Type any command to continue...'
             ],
             about: [
-                'About Mark Gatere',
+                'About Beni Yakini',
                 '================',
                 '',
                 'Passionate Software Engineer with expertise in full-stack development.',
@@ -71,7 +71,7 @@ class TerminalPortfolio {
                 '   • JavaScript/TypeScript  ████████████ 95%',
                 '   • Python                 ███████████  90%',
                 '   • Java                   ████████     80%',
-                '   • Go                     ███████      70%',
+                
                 '',
                 '🌐 Web Technologies:',
                 '   • React/Next.js         ████████████ 95%',
