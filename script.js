@@ -188,7 +188,7 @@ class TerminalPortfolio {
                 '🔗 LinkedIn: <a href="https://www.linkedin.com/in/yakini-beni/" target="_blank" rel="noopener">linkedin.com/in/yakini-beni/</a>',
                 '🐙 GitHub: <a href="https://github.com/markgatere" target="_blank" rel="noopener">github.com/markgatere</a>',
                 '🌐 Portfolio: <a href="https://markgatere.dev" target="_blank" rel="noopener">markgatere.dev</a>',
-                '📱 Phone: +1 (555) 123-4567',
+                '📱 Phone: +250 (788) 281 918',
                 '',
                 '📍 Location: Available for remote work worldwide',
                 '⏰ Timezone: UTC+2 (EST)',
